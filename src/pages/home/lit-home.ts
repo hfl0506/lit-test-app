@@ -21,6 +21,10 @@ export class HomePage extends LitElement {
     this.isShow = !this.isShow;
   }
 
+  toggleNotShow() {
+    this.isShow = false;
+  }
+
   render() {
     return html`
       <div>

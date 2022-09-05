@@ -1,5 +1,5 @@
 import { LitElement, html, css } from "lit";
-import { customElement } from "lit/decorators.js";
+import { customElement, state } from "lit/decorators.js";
 
 @customElement("lit-create-button")
 export class LitCreateButton extends LitElement {
@@ -17,15 +17,31 @@ export class LitCreateButton extends LitElement {
       background-color: #1a1a1a;
       border-radius: 8px;
     }
+
     .create-btn:hover {
       cursor: pointer;
-      opacity: 0.8;
     }
   `;
+
+  @state()
+  color: string = "white";
+
+  setGreyColor() {
+    this.color = "grey";
+  }
+
+  setWhiteColor() {
+    this.color = "white";
+  }
+
   render() {
     return html`
-      <div class="create-btn">
-        <box-icon name="add-to-queue" color="white" id="icon"></box-icon>
+      <div
+        class="create-btn"
+        @mouseover=${this.setGreyColor}
+        @mouseout=${this.setWhiteColor}
+      >
+        <box-icon name="add-to-queue" color=${this.color} id="icon"></box-icon>
       </div>
     `;
   }

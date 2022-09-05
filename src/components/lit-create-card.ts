@@ -49,7 +49,7 @@ export class LitCreateCard extends LitElement {
 
     .submit-btn:hover {
       cursor: pointer;
-      opacity: 0.7;
+      color: grey;
     }
   `;
   render() {
