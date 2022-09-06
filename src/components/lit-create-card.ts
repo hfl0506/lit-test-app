@@ -1,5 +1,6 @@
 import { LitElement, html, css } from "lit";
-import { customElement } from "lit/decorators.js";
+import { customElement, property, query } from "lit/decorators.js";
+import { Todo } from "../interface/todo.interface";
 
 @customElement("lit-create-card")
 export class LitCreateCard extends LitElement {
@@ -52,17 +53,46 @@ export class LitCreateCard extends LitElement {
       color: grey;
     }
   `;
+
+  @property({ attribute: "add-todo" })
+  addTodo: (todo: Todo) => void = (todo: Todo) => {};
+
+  @property({ type: String }) _title = "";
+  @property({ type: String }) _content = "";
+
+  setTitle(e: any) {
+    const value = e.target.value;
+    this._title = value;
+  }
+
+  setContent(e: any) {
+    const value = e.target.value;
+    this._content = value;
+  }
+
   render() {
     return html`
-      <form type="submit">
+      <form
+        type="submit"
+        @click=${() =>
+          this.addTodo({
+            title: this._title,
+            content: this._content,
+            isDone: false,
+          })}
+      >
         <div class="content-wrapper">
           <div class="content">
             <label>Title: </label>
-            <input />
+            <input id="title" .value=${this._title} @input=${this.setTitle} />
           </div>
           <div class="content">
             <label>Content: </label>
-            <input />
+            <input
+              id="content"
+              .value=${this._content}
+              @input=${this.setContent}
+            />
           </div>
           <button class="submit-btn">Create</button>
         </div>

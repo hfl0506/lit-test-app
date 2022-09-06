@@ -10,12 +10,9 @@ export class LitCreateButton extends LitElement {
       display: flex;
       justify-content: center;
       align-items: center;
-      position: fixed;
-      top: 20%;
-      left: 50%;
-      transform: translate(-50%, -50%);
       background-color: #1a1a1a;
       border-radius: 8px;
+      margin: 30px;
     }
 
     .create-btn:hover {
