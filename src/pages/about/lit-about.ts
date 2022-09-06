@@ -45,11 +45,13 @@ export class AboutPage extends LitElement {
   `;
   render() {
     return html`
-      <p>
-        This application is for experimental usage for testing Lit-html by
-        Ronnie Li.
-      </p>
-      <a href=${goToPage("/")}>Home</a>
+      <div>
+        <p>
+          This application is for experimental usage for testing Lit-html by
+          Ronnie Li.
+        </p>
+        <a href=${goToPage("/")}>Home</a>
+      </div>
     `;
   }
 }
