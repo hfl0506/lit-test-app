@@ -10,8 +10,8 @@ export class LitDisplayCard extends LitElement {
       width: 100%;
       display: grid;
       align-items: center;
+      gap: 0.5rem;
       height: 200px;
-      position: relative;
       border-radius: 8px;
       box-shadow: 0px 4px 8px 4px rgba(0, 0, 0, 0.1);
     }
@@ -30,6 +30,15 @@ export class LitDisplayCard extends LitElement {
     }
 
     .delete-btn {
+      height: 40px;
+      width: 40px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: red;
+      border-radius: 8px;
+      cursor: pointer;
     }
   `;
 
