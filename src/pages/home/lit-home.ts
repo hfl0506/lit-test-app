@@ -15,6 +15,22 @@ export class HomePage extends LitElement {
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      position: relative;
+    }
+
+    .nothing {
+      height: 50px;
+      width: 150px;
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+
+    .nothing p {
+      font-size: 14px;
+      padding: 5px;
     }
   `;
 
@@ -49,16 +65,22 @@ export class HomePage extends LitElement {
     return html`
       <lit-create-button @click=${this.toggleShow}></lit-create-button>
       <lit-create-card ?hidden=${!this.isShow}></lit-create-card>
-      ${map(
-        this.todos,
-        (todo: Todo, idx: number) => html`
-          <lit-display-card
-            .todo=${todo}
-            .todo-idx=${idx}
-            .delete-todo=${this.deleteTodo(idx)}
-          ></lit-display-card>
-        `
-      )}
+      ${this.todos?.length > 0
+        ? map(
+            this.todos,
+            (todo: Todo, idx: number) => html`
+              <lit-display-card
+                .todo=${todo}
+                .todo-idx=${idx}
+                .delete-todo=${this.deleteTodo(idx)}
+              ></lit-display-card>
+            `
+          )
+        : html`
+            <div class="nothing">
+              <p>Nothing to show...</p>
+            </div>
+          `}
     `;
   }
 }

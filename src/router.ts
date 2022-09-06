@@ -1,4 +1,5 @@
 import { Router, Route } from "@vaadin/router";
+import "boxicons";
 
 const routes: Route[] = [
   {
