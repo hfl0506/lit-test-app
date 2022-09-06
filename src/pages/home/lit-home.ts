@@ -29,7 +29,7 @@ export class HomePage extends LitElement {
     return html`
       <div>
         <lit-create-button @click=${this.toggleShow}></lit-create-button>
-        ${this.isShow ? html`<lit-create-card></lit-create-card>` : nothing}
+        <lit-create-card ?hidden=${this.isShow}></lit-create-card>
       </div>
     `;
   }
