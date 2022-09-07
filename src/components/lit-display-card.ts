@@ -1,5 +1,5 @@
 import { LitElement, html, css } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { customElement, property, state, query } from "lit/decorators.js";
 import { Todo } from "../interface/todo.interface";
 
 @customElement("lit-display-card")
@@ -29,6 +29,7 @@ export class LitDisplayCard extends LitElement {
       border-radius: 8px 0px 0px 8px;
       position: fixed;
       background: #1a1a1a;
+      z-index: 2;
     }
 
     .display-card-field {
@@ -62,8 +63,11 @@ export class LitDisplayCard extends LitElement {
   @property({ type: Number, attribute: "todo-idx" })
   todoIdx: number = 0;
 
-  @state()
-  binColor: string = "white";
+  @state() binColor: string = "white";
+
+  @state() isDone: boolean = false;
+
+  @query("#card-wrapper") _div!: HTMLDivElement;
 
   setWhite() {
     this.binColor = "white";
@@ -73,9 +77,21 @@ export class LitDisplayCard extends LitElement {
     this.binColor = "grey";
   }
 
+  onCheck(e: InputEvent) {
+    e.preventDefault();
+    this.isDone = !this.isDone;
+    if (this.isDone) {
+      this._div.style.background = "grey";
+      this._div.style.color = "white";
+    } else {
+      this._div.style.background = "white";
+      this._div.style.color = "black";
+    }
+  }
+
   render() {
     return html`
-      <div class="display-card-wrapper">
+      <div class="display-card-wrapper" id="card-wrapper">
         <div class="display-card-left">
           <div class="display-card-field">
             <label>Title: </label>
@@ -86,7 +102,11 @@ export class LitDisplayCard extends LitElement {
             <span> ${this.todo.content} </span>
           </div>
           <div class="display-card-field">
-            <input type="checkbox" value=${this.todo.isDone} />
+            <input
+              type="checkbox"
+              value=${this.isDone}
+              @change=${this.onCheck}
+            />
             <label>Done</label>
           </div>
         </div>
