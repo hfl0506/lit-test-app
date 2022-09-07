@@ -15,16 +15,14 @@ export class HomePage extends LitElement {
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      position: relative;
+      min-height: 100vh;
     }
 
     .nothing {
       height: 50px;
       width: 150px;
-      position: fixed;
       left: 50%;
       top: 50%;
-      transform: translate(-50%, -50%);
       text-align: center;
     }
 

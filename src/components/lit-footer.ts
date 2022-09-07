@@ -4,15 +4,13 @@ import { customElement } from "lit/decorators.js";
 @customElement("lit-footer")
 export class LitFooter extends LitElement {
   static styles = css`
-    div {
+    footer {
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100px;
       background-color: #1a1a1a;
-      position: absolute;
-      bottom: 0;
-      width: 100%;
+      flex-shrink: 0;
     }
     span {
       color: white;
@@ -22,9 +20,9 @@ export class LitFooter extends LitElement {
   `;
   render() {
     return html`
-      <div>
+      <footer>
         <span>Copyright by Ronnie - ${new Date().getFullYear()}</span>
-      </div>
+      </footer>
     `;
   }
 }

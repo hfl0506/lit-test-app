@@ -10,6 +10,8 @@ export class LitNavbar extends LitElement {
       background: #1a1a1a;
       display: flex;
       align-items: center;
+      position: sticky;
+      top: 0;
     }
 
     #icon {

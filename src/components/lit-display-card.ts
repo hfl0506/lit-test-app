@@ -27,7 +27,6 @@ export class LitDisplayCard extends LitElement {
       height: 200px;
       width: 10px;
       border-radius: 8px 0px 0px 8px;
-      position: fixed;
       background: #1a1a1a;
       z-index: 2;
     }
