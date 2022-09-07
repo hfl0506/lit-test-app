@@ -34,7 +34,7 @@ export class HomePage extends LitElement {
     }
   `;
 
-  @state()
+  @property()
   isShow: boolean = false;
 
   todos: Todo[] = [
@@ -43,28 +43,21 @@ export class HomePage extends LitElement {
       content: "html",
       isDone: false,
     },
+    {
+      title: "hi",
+      content: "html",
+      isDone: false,
+    },
   ];
-
-  toggleShow() {
-    this.isShow = !this.isShow;
-  }
-
-  toggleNotShow() {
-    this.isShow = false;
-  }
-
-  deleteTodo(index: number) {
-    this.todos = this.todos.filter((_, i) => i !== index);
-  }
-
-  addTodo(todo: Todo) {
-    this.todos = [...this.todos, todo];
-  }
 
   render() {
     return html`
       <lit-create-button @click=${this.toggleShow}></lit-create-button>
-      <lit-create-card ?hidden=${!this.isShow}></lit-create-card>
+      <lit-create-card
+        ?hidden=${!this.isShow}
+        .onAddTodo=${this.addTodo}
+        .onNotShow=${this.toggleNotShow}
+      ></lit-create-card>
       ${this.todos?.length > 0
         ? map(
             this.todos,
@@ -82,6 +75,24 @@ export class HomePage extends LitElement {
             </div>
           `}
     `;
+  }
+
+  toggleShow() {
+    this.isShow = !this.isShow;
+  }
+
+  toggleNotShow() {
+    this.isShow = false;
+  }
+
+  deleteTodo(index: number) {
+    this.todos = this.todos.filter((_, i) => i !== index);
+  }
+
+  addTodo(todo: Todo) {
+    console.log(todo);
+    console.log(this.todos);
+    this.todos = [...this.todos, todo];
   }
 }
 

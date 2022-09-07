@@ -15,6 +15,7 @@ export class LitCreateCard extends LitElement {
       left: 50%;
       transform: translate(-50%, -50%);
       z-index: 10;
+      background-color: white;
     }
 
     form:before {
@@ -55,8 +56,11 @@ export class LitCreateCard extends LitElement {
     }
   `;
 
-  @property({ attribute: "add-todo" })
-  addTodo: (todo: Todo) => void = (todo: Todo) => {};
+  @property({ attribute: "add-todo", type: Function })
+  onAddTodo: Function = () => {};
+
+  @property({ attribute: "toggle-not-show", type: Function })
+  onNotShow: Function = () => {};
 
   @property({ type: String }) _title = "";
   @property({ type: String }) _content = "";
@@ -75,12 +79,15 @@ export class LitCreateCard extends LitElement {
     return html`
       <form
         type="submit"
-        @click=${() =>
-          this.addTodo({
+        @submit=${(e: any) => {
+          e.preventDefault();
+          this.onAddTodo({
             title: this._title,
             content: this._content,
             isDone: false,
-          })}
+          });
+          this.onNotShow;
+        }}
       >
         <div class="content-wrapper">
           <div class="content">
