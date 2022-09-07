@@ -34,29 +34,19 @@ export class HomePage extends LitElement {
     }
   `;
 
-  @property()
+  @property({ attribute: false, type: Boolean })
   isShow: boolean = false;
 
-  todos: Todo[] = [
-    {
-      title: "hi",
-      content: "html",
-      isDone: false,
-    },
-    {
-      title: "hi",
-      content: "html",
-      isDone: false,
-    },
-  ];
+  @property({ attribute: false })
+  todos: Todo[] = [];
 
   render() {
     return html`
-      <lit-create-button @click=${this.toggleShow}></lit-create-button>
+      <lit-create-button @click=${this.toggleDisplay}></lit-create-button>
       <lit-create-card
         ?hidden=${!this.isShow}
-        .onAddTodo=${this.addTodo}
-        .onNotShow=${this.toggleNotShow}
+        @onAddTodo=${this._addTodo}
+        @onHide=${this._onHide}
       ></lit-create-card>
       ${this.todos?.length > 0
         ? map(
@@ -65,7 +55,7 @@ export class HomePage extends LitElement {
               <lit-display-card
                 .todo=${todo}
                 .todo-idx=${idx}
-                .delete-todo=${this.deleteTodo(idx)}
+                @onDelete=${() => this._deleteTodo(idx)}
               ></lit-display-card>
             `
           )
@@ -76,23 +66,24 @@ export class HomePage extends LitElement {
           `}
     `;
   }
-
-  toggleShow() {
+  toggleDisplay() {
     this.isShow = !this.isShow;
   }
 
-  toggleNotShow() {
-    this.isShow = false;
-  }
-
-  deleteTodo(index: number) {
+  _deleteTodo(index: number) {
     this.todos = this.todos.filter((_, i) => i !== index);
+    this.requestUpdate();
   }
 
-  addTodo(todo: Todo) {
-    console.log(todo);
-    console.log(this.todos);
-    this.todos = [...this.todos, todo];
+  _onHide(e: CustomEvent) {
+    const isShow = e.detail.isShow;
+    this.isShow = isShow;
+  }
+
+  _addTodo(e: CustomEvent) {
+    const payload = e.detail;
+    this.todos = [...this.todos, payload];
+    this.requestUpdate();
   }
 }
 

@@ -1,6 +1,12 @@
 import { LitElement, html, css } from "lit";
-import { customElement, property, query } from "lit/decorators.js";
-import { Todo } from "../interface/todo.interface";
+import {
+  customElement,
+  property,
+  query,
+  queryAll,
+  state,
+} from "lit/decorators.js";
+import { SubmitTodo, Todo } from "../interface/todo.interface";
 
 @customElement("lit-create-card")
 export class LitCreateCard extends LitElement {
@@ -55,57 +61,63 @@ export class LitCreateCard extends LitElement {
       color: grey;
     }
   `;
+  @query("#create-form") _form!: HTMLFormElement;
 
-  @property({ attribute: "add-todo", type: Function })
-  onAddTodo: Function = () => {};
+  async submitForm(e: FormDataEvent) {
+    e.preventDefault();
+    const formData = new FormData(this._form);
+    const titleValue = String(formData.get("title"));
+    const contentValue = String(formData.get("content"));
 
-  @property({ attribute: "toggle-not-show", type: Function })
-  onNotShow: Function = () => {};
+    let payload: Todo = {
+      isDone: false,
+      title: titleValue,
+      content: contentValue,
+    };
 
-  @property({ type: String }) _title = "";
-  @property({ type: String }) _content = "";
-
-  setTitle(e: any) {
-    const value = e.target.value;
-    this._title = value;
-  }
-
-  setContent(e: any) {
-    const value = e.target.value;
-    this._content = value;
+    this._dispatchAddTodo(payload);
+    this._dispatchHide();
+    this._form.reset();
   }
 
   render() {
     return html`
-      <form
-        type="submit"
-        @submit=${(e: any) => {
-          e.preventDefault();
-          this.onAddTodo({
-            title: this._title,
-            content: this._content,
-            isDone: false,
-          });
-          this.onNotShow;
-        }}
-      >
+      <form id="create-form" method="post" @submit=${this.submitForm}>
         <div class="content-wrapper">
           <div class="content">
             <label>Title: </label>
-            <input id="title" .value=${this._title} @input=${this.setTitle} />
+            <input id="title" name="title" required type="text" />
           </div>
           <div class="content">
             <label>Content: </label>
-            <input
-              id="content"
-              .value=${this._content}
-              @input=${this.setContent}
-            />
+            <input id="content" name="content" required type="text" />
           </div>
-          <button class="submit-btn">Create</button>
+          <button type="submit" class="submit-btn">Create</button>
         </div>
       </form>
     `;
+  }
+
+  private _dispatchAddTodo(inputs: Object) {
+    const options = {
+      detail: inputs,
+      bubbles: true,
+      composed: true,
+    };
+
+    this.dispatchEvent(new CustomEvent("onAddTodo", options));
+  }
+
+  private _dispatchHide() {
+    const options = {
+      detail: {
+        isShow: false,
+      },
+      bubbles: true,
+      composed: true,
+    };
+
+    this.dispatchEvent(new CustomEvent("onHide", options));
   }
 }
 

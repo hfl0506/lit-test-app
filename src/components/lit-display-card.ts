@@ -59,11 +59,8 @@ export class LitDisplayCard extends LitElement {
     isDone: false,
   };
 
-  @property({ attribute: "todo-idx" })
+  @property({ type: Number, attribute: "todo-idx" })
   todoIdx: number = 0;
-
-  @property({ attribute: "delete-todo" })
-  deleteTodo = () => {};
 
   @state()
   binColor: string = "white";
@@ -94,7 +91,10 @@ export class LitDisplayCard extends LitElement {
           </div>
         </div>
         <div class="display-card-right">
-          <div class="delete-btn" @click=${this.deleteTodo}>
+          <div
+            class="delete-btn"
+            @click=${() => this._dispatchDeleteTodo(this.todoIdx)}
+          >
             <box-icon
               name="trash"
               color=${this.binColor}
@@ -105,6 +105,18 @@ export class LitDisplayCard extends LitElement {
         </div>
       </div>
     `;
+  }
+
+  private _dispatchDeleteTodo(idx: number) {
+    const options = {
+      detail: {
+        index: idx,
+      },
+      bubbles: true,
+      composed: true,
+    };
+
+    this.dispatchEvent(new CustomEvent("onDelete", options));
   }
 }
 
